@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            transition: all 0.5s ease;
+        }
+
+        @property --background-color1 {
+            syntax: '<color>';
+            initial-value: #c2e0ff;
+            inherits: false;
+        }
+
+        @property --background-color2 {
+            syntax: '<color>';
+            initial-value: #2692ff;
+            inherits: false;
+        }
+
+        @property --ball-color1 {
+            syntax: '<color>';
+            initial-value: #ffdc2f;
+            inherits: false;
+        }
+
+        @property --ball-color2 {
+            syntax: '<color>';
+            initial-value: #f90101;
+            inherits: false;
+        }
+
+        :root {
+            --height: 50px;
+            --width: 100px;
+        }
+
+        #root {
+            height: var(--height);
+            width: var(--width);
+            border-radius: calc(var(--height) / 2);
+            margin: 100px auto;
+            position: relative;
+            background: linear-gradient(to top, var(--background-color1), var(--background-color2));
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        #root:has(.checkbox:checked) {
+            animation: changeColor1 .5s linear forwards;
+        }
+
+        #root:has(.checkbox:not(:checked)) {
+            animation: changeColor2 .5s linear forwards;
+        }
+
+        @keyframes changeColor1 {
+            0% {
+                --background-color1: #c2e0ff;
+                --background-color2: #2692ff;
+            }
+
+            100% {
+                --background-color1: #0c233a;
+                --background-color2: #0d60b3;
+            }
+        }
+
+        @keyframes changeColor2 {
+            0% {
+                --background-color1: #0c233a;
+                --background-color2: #0d60b3;
+            }
+
+            100% {
+                --background-color1: #c2e0ff;
+                --background-color2: #2692ff;
+            }
+        }
+
+        .checkbox {
+            display: none;
+        }
+
+        label {
+            --margin: 5px;
+            --lable-size: calc(var(--height) - 2 * var(--margin));
+            position: absolute;
+            display: block;
+            top: var(--margin);
+            left: var(--margin);
+            height: var(--lable-size);
+            width: var(--lable-size);
+            background: radial-gradient(circle at 20% 20%, var(--ball-color1)40%, var(--ball-color2) 100%);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .checkbox:not(:checked)+label {
+            animation: changeBall2 0.5s linear forwards;
+        }
+
+        .checkbox:checked+label {
+            left: calc(100% - var(--lable-size) - var(--margin));
+            animation: changeBall1 0.5s linear forwards;
+        }
+
+        @keyframes changeBall1 {
+            0% {
+                --ball-color1: #ffdc2f;
+                --ball-color2: #f90101;
+            }
+
+            100% {
+                --ball-color1: transparent;
+                --ball-color2: #72b4ff;
+            }
+        }
+
+        @keyframes changeBall2 {
+            0% {
+                --ball-color1: transparent;
+                --ball-color2: #72b4ff;
+            }
+
+            100% {
+                --ball-color1: #ffdc2f;
+                --ball-color2: #f90101;
+            }
+        }
+
+        .sun {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+            pointer-events: none;
+        }
+
+        .sun .cloud {
+            position: absolute;
+            height: calc(var(--width)/2.5);
+            width: calc(var(--width)/2.5);
+            background: #fff;
+            border-radius: 50% 50%;
+        }
+
+        .sun .cloud:nth-child(1) {
+            left: 10%;
+            bottom: -50%;
+        }
+
+        .sun .cloud:nth-child(2) {
+            left: 40%;
+            bottom: -20%;
+        }
+
+        .sun .cloud:nth-child(3) {
+            left: 70%;
+            bottom: -30%;
+        }
+
+        .checkbox:checked~.sun {
+            transform: translateY(100%);
+        }
+
+        .moon {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            transform: translateY(100%);
+            pointer-events: none;
+        }
+
+        .moon .star {
+            position: absolute;
+            height: var(--size);
+            width: var(--size);
+            left: var(--left);
+            top: var(--top);
+            clip-path: polygon(41% 30%, 51% 0, 62% 30%, 85% 38%, 63% 52%, 53% 100%, 40% 51%, 19% 39%);
+            background: yellow;
+        }
+
+        .checkbox:checked~.moon {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root">
+        <input type="checkbox" name="day" id="day" class="checkbox">
+        <label for="day"></label>
+        <div class="sun">
+            <div class="cloud"></div>
+            <div class="cloud"></div>
+            <div class="cloud"></div>
+        </div>
+        <div class="moon">
+            <div class="star" style="--size:10px;--left:12%;--top:50%;"></div>
+            <div class="star" style="--size:8px;--left:24%;--top:20%;"></div>
+            <div class="star" style="--size:2px;--left:35%;--top:10%;"></div>
+            <div class="star" style="--size:3px;--left:40%;--top:40%;"></div>
+            <div class="star" style="--size:4px;--left:15%;--top:20%;"></div>
+            <div class="star" style="--size:12px;--left:35%;--top:60%;"></div>
+        </div>
+    </div>
+</body>
+
+</html>
