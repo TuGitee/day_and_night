@@ -7,8 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        * {
-            transition: all 0.5s ease;
+
+        :root:has(.checkbox:checked) {
+            color-scheme: dark;
         }
 
         @property --background-color1 {
@@ -40,11 +41,19 @@
             --width: 100px;
         }
 
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
         #root {
             height: var(--height);
             width: var(--width);
             border-radius: calc(var(--height) / 2);
-            margin: 100px auto;
             position: relative;
             background: linear-gradient(to top, var(--background-color1), var(--background-color2));
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -99,6 +108,7 @@
             background: radial-gradient(circle at 20% 20%, var(--ball-color1)40%, var(--ball-color2) 100%);
             border-radius: 50%;
             cursor: pointer;
+            transition: all 0.5s ease;
         }
 
         .checkbox:not(:checked)+label {
@@ -140,6 +150,7 @@
             width: 100%;
             filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
             pointer-events: none;
+            transition: all 0.5s ease;
         }
 
         .sun .cloud {
@@ -175,6 +186,7 @@
             width: 100%;
             transform: translateY(100%);
             pointer-events: none;
+            transition: all 0.5s ease;
         }
 
         .moon .star {
@@ -189,6 +201,14 @@
 
         .checkbox:checked~.moon {
             transform: translateY(0);
+        }
+
+        body:has(.checkbox:checked) #light {
+            display: none;
+        }
+
+        body:has(.checkbox:not(:checked)) #dark {
+            display: none;
         }
     </style>
 </head>
@@ -211,6 +231,8 @@
             <div class="star" style="--size:12px;--left:35%;--top:60%;"></div>
         </div>
     </div>
+    <p id="light">亮色模式</p>
+    <p id="dark">暗色模式</p>
 </body>
 
 </html>
